@@ -1,70 +1,70 @@
 # OrbVisense
 
-Aplicación Android para la **transmisión de datos de cámara e IMU mediante WebSocket**, organizada bajo una arquitectura cliente-servidor.
+Android application for **camera and IMU data transmission over WebSocket**, organized under a client-server architecture.
 
-La aplicación está orientada principalmente a la transmisión de datos necesarios para iniciar sistemas de **visión monocular** y **visión monocular-inercial**, mediante los topics `/cam0` y `/imu0`.
+The application is mainly intended for transmitting the data required to initialize **monocular vision** and **monocular-inertial vision** systems through the `/cam0` and `/imu0` topics.
 
 ---
 
-## Requisitos e instalación
+# Requirements and Installation
 
-Para acceder y trabajar con la aplicación es necesario contar con **Android Studio**.
+To access and work with the application, **Android Studio** is required.
 
-En caso de trabajar con **Linux**, se recomienda seguir los siguientes pasos para realizar la instalación.
+If working on **Linux**, the following installation procedure is recommended.
 
-### 1. Descargar Android Studio
+## 1. Download Android Studio
 
-Descarga Android Studio desde el sitio oficial:
+Download Android Studio from the official website:
 
-[Descargar Android Studio — sitio oficial](https://developer.android.com/studio?hl=es-419&utm_source=chatgpt.com)
+[Download Android Studio — Official Website](https://developer.android.com/studio?hl=en&utm_source=chatgpt.com)
 
-Al realizar la descarga, se debería obtener un archivo similar a:
+The downloaded file should be similar to:
 
 ```text
 android-studio-quail4-patch1-linux.tar.gz
 ```
 
-### 2. Instalar las bibliotecas necesarias
+## 2. Install the required libraries
 
-En una terminal, ejecuta:
+Open a terminal and run:
 
 ```bash
 sudo apt update
 sudo apt install libc6:i386 libncurses5:i386 libstdc++6:i386 lib32z1 libbz2-1.0:i386
 ```
 
-### 3. Descomprimir Android Studio
+## 3. Extract Android Studio
 
-Si el archivo se encuentra dentro de `~/Descargas`, ejecuta:
-
-```bash
-tar -xzf "$HOME/Descargas/android-studio-quail4-patch1-linux.tar.gz" -C "$HOME/Descargas"
-```
-
-### 4. Ejecutar Android Studio
-
-Para iniciar Android Studio:
+If the downloaded file is located inside `~/Downloads`, run:
 
 ```bash
-"$HOME/Descargas/android-studio/bin/studio"
+tar -xzf "$HOME/Downloads/android-studio-quail4-patch1-linux.tar.gz" -C "$HOME/Downloads"
 ```
 
-### 5. Abrir el proyecto OrbVisense
+## 4. Launch Android Studio
 
-Una vez iniciado Android Studio:
+To start Android Studio:
 
-1. Seleccionar **Open** / **Abrir** desde la interfaz.
-2. Seleccionar la carpeta del proyecto **`OrbVIsense`**.
-3. La carpeta debe estar previamente **descomprimida**.
-4. Esperar a que Android Studio cargue y sincronice el proyecto.
+```bash
+"$HOME/Downloads/android-studio/bin/studio"
+```
+
+## 5. Open the OrbVisense project
+
+Once Android Studio has started:
+
+1. Select **Open** from the interface.
+2. Select the **`OrbVIsense`** project folder.
+3. The project folder must be **previously extracted**.
+4. Wait for Android Studio to load and synchronize the project.
 
 ---
 
-# Funcionalidades de la aplicación
+# Application Features
 
-La aplicación permite manejar el **envío de datos mediante una arquitectura cliente-servidor**, utilizando WebSocket como medio de transmisión.
+The application handles **data transmission through a client-server architecture**, using WebSocket as the communication method.
 
-Los datos se organizan principalmente en los siguientes topics:
+The transmitted data is organized mainly into the following topics:
 
 ```text
 /cam0
@@ -73,111 +73,109 @@ Los datos se organizan principalmente en los siguientes topics:
 
 ---
 
-## Cámara — `/cam0`
+## Camera — `/cam0`
 
-El topic `/cam0` permite enviar datos correspondientes a imágenes comprimidas en formato **JPEG**.
+The `/cam0` topic is used to transmit camera images compressed in **JPEG** format.
 
-Características:
+| Parameter | Characteristic                                  |
+| --------- | ----------------------------------------------- |
+| Format    | JPEG                                            |
+| Frequency | 0–30 FPS                                        |
+| Timestamp | Each image contains its corresponding timestamp |
 
-| Parámetro  | Característica                                    |
-| ---------- | ------------------------------------------------- |
-| Formato    | JPEG                                              |
-| Frecuencia | 0–30 FPS                                          |
-| Timestamp  | Cada imagen contiene su timestamp correspondiente |
+The transmission frequency may be affected by factors such as:
 
-La frecuencia de transmisión puede verse afectada por factores como:
+* Receiver server performance.
+* Device characteristics and processing capabilities.
+* Wi-Fi connection quality.
+* Network and transmission conditions.
 
-* Capacidad del servidor receptor.
-* Características y rendimiento del dispositivo.
-* Calidad de la conexión Wi-Fi.
-* Condiciones de red y transmisión.
-
-Por este motivo, las tasas configuradas en la aplicación pueden no mantenerse siempre de forma exacta durante la transmisión.
+Therefore, the configured transmission rates may not always be maintained exactly during operation.
 
 ---
 
 ## IMU — `/imu0`
 
-El topic `/imu0` permite enviar los datos provenientes de la IMU:
+The `/imu0` topic is used to transmit IMU measurements:
 
 ```text
 wx  wy  wz
 ax  ay  az
 ```
 
-Cada conjunto de datos contiene su **timestamp correspondiente**.
+Each measurement contains its **corresponding timestamp**.
 
-| Parámetro  | Característica                     |
-| ---------- | ---------------------------------- |
-| Datos      | wx, wy, wz, ax, ay, az             |
-| Frecuencia | 50–400 Hz                          |
-| Timestamp  | Cada muestra contiene su timestamp |
+| Parameter | Characteristic                          |
+| --------- | --------------------------------------- |
+| Data      | wx, wy, wz, ax, ay, az                  |
+| Frequency | 50–400 Hz                               |
+| Timestamp | Each measurement contains its timestamp |
 
-Al igual que con la cámara, la frecuencia efectiva de transmisión puede verse afectada por el dispositivo, el servidor receptor y la calidad de la conexión Wi-Fi.
-
----
-
-## Objetivo de la transmisión
-
-La herramienta permite obtener una recepción de datos adecuada y ajustable a los requerimientos necesarios para iniciar sistemas de:
-
-* **Visión monocular**
-* **Visión monocular-inercial**
-
-La comunicación se realiza mediante **WebSocket**, permitiendo transmitir simultáneamente información de cámara e IMU.
+As with the camera, the effective transmission frequency may be affected by the device, receiver server, and Wi-Fi connection quality.
 
 ---
 
-# Interfaz de la aplicación
+# Transmission Purpose
 
-La interfaz está dividida en diferentes paneles y controles destinados a supervisar y configurar la transmisión.
+The main purpose of this tool is to provide an adequate and configurable data stream according to the requirements needed to initialize:
 
-## Panel de información
+* **Monocular vision systems**
+* **Monocular-inertial vision systems**
 
-El panel de información se encuentra ubicado en la **esquina superior izquierda**.
-
-Este panel muestra:
-
-* IP a la que se desea conectar.
-* Número de cuadros enviados.
-* Número de datos IMU enviados.
-* Estado actual de la transmisión.
-* Información relacionada con posibles errores de conexión con la IO.
-
-### Estados de conexión
-
-| Español           | Inglés           | Descripción                                                                                         |
-| ----------------- | ---------------- | --------------------------------------------------------------------------------------------------- |
-| **Desconectado**  | **Disconnected** | Indica que la transmisión no se encuentra conectada.                                                |
-| **Conectado**     | **Connecting**   | Indica que la aplicación se encuentra en proceso de conexión para iniciar el envío de datos.        |
-| **Transmitiendo** | **Transmitting** | Indica que la conexión WebSocket se estableció correctamente y que los datos están siendo enviados. |
-
-> **Nota:** La interfaz de la aplicación contiene elementos tanto en español como en inglés.
+Communication is performed through **WebSocket**, allowing camera and IMU information to be transmitted simultaneously.
 
 ---
 
-## Activador de flash
+# Application Interface
 
-El activador de flash se encuentra ubicado en la **esquina superior derecha**.
+The interface is divided into different panels and controls for monitoring and configuring the transmission.
 
-Permite proporcionar iluminación constante mediante el flash de la cámara para:
+## Information Panel
 
-* Realizar pruebas.
-* Trabajar en escenarios con poca iluminación.
+The information panel is located in the **upper-left corner** of the screen.
 
-El flash puede activarse o desactivarse **en cualquier momento**, independientemente del estado de conexión.
+It displays:
+
+* IP address to which the application is configured to connect.
+* Number of frames transmitted.
+* Number of IMU measurements transmitted.
+* Current transmission status.
+* Information about possible connection errors with the IO.
+
+### Connection Status
+
+| Spanish           | English          | Description                                                                                              |
+| ----------------- | ---------------- | -------------------------------------------------------------------------------------------------------- |
+| **Desconectado**  | **Disconnected** | Indicates that the transmission is not connected.                                                        |
+| **Conectado**     | **Connecting**   | Indicates that the application is currently establishing the connection to begin transmitting data.      |
+| **Transmitiendo** | **Transmitting** | Indicates that the WebSocket connection has been successfully established and data is being transmitted. |
+
+> **Note:** Some elements of the application interface are displayed in Spanish while others are displayed in English.
 
 ---
 
-## Panel de configuración
+## Flash Activation
 
-El panel de configuración se encuentra ubicado en la **parte central de la pantalla**.
+The flash activation control is located in the **upper-right corner**.
 
-Cuenta con dos sliders que permiten variar la frecuencia de envío de datos:
+It provides constant illumination using the camera flash, which can be useful for:
 
-### Cámara `/cam0`
+* Testing.
+* Low-light environments.
 
-Permite modificar la frecuencia de transmisión de imágenes entre:
+The flash can be activated or deactivated **at any time**, regardless of the current connection state.
+
+---
+
+## Configuration Panel
+
+The configuration panel is located in the **center of the screen**.
+
+It contains two sliders that allow the transmission frequency of the data to be adjusted.
+
+### Camera `/cam0`
+
+The camera transmission frequency can be adjusted between:
 
 ```text
 0–30 FPS
@@ -185,24 +183,24 @@ Permite modificar la frecuencia de transmisión de imágenes entre:
 
 ### IMU `/imu0`
 
-Permite modificar la frecuencia de transmisión de datos entre:
+The IMU transmission frequency can be adjusted between:
 
 ```text
 50–400 Hz
 ```
 
-Ambos sliders pueden modificarse **en cualquier momento**, tanto durante la conexión como cuando el dispositivo se encuentra desconectado.
+Both sliders can be modified **at any time**, whether the device is connected or disconnected.
 
-### Configuración de conexión
+### Connection Configuration
 
-El panel también permite establecer:
+The panel also allows the user to configure:
 
-* **IP** del dispositivo o servidor al que se desea conectar mediante WebSocket.
-* **Puerto** correspondiente a la conexión.
+* **IP address** of the device or server to connect to through WebSocket.
+* **Port** used for the connection.
 
-### Resolución de imagen
+### Image Resolution
 
-La aplicación ofrece dos opciones de resolución:
+The application provides two image resolution options:
 
 ```text
 640 × 480
@@ -211,21 +209,21 @@ La aplicación ofrece dos opciones de resolución:
 
 ---
 
-# Panel de acciones
+# Action Panel
 
-Actualmente, el panel de acciones cuenta con dos funciones principales:
+Currently, the action panel contains two main functions.
 
-## 1. Grabar datos
+## 1. Record Data
 
-El modo **"Grabar datos"** permite realizar una grabación de datos como si la transmisión estuviera ocurriendo, pero almacenando localmente la información dentro de los archivos de la aplicación.
+The **"Record Data"** mode allows data to be recorded as if a transmission were taking place, while storing the information locally within the application's files.
 
-Cada sesión se almacena en una carpeta con un nombre similar a:
+Each recording session is stored in a folder with a name similar to:
 
 ```text
 dataset_#####
 ```
 
-Dentro de cada sesión se crean dos carpetas correspondientes a los topics:
+Each session contains two folders corresponding to the topics:
 
 ```text
 dataset_#####
@@ -235,62 +233,62 @@ dataset_#####
 
 ### `/cam0`
 
-La carpeta de cámara contiene:
+The camera folder contains:
 
 ```text
 cam0/
 ├── data/
-│   ├── <timestamp_1>.jpg
-│   ├── <timestamp_2>.jpg
-│   ├── <timestamp_3>.jpg
+│   ├── <timestamp_1>.png
+│   ├── <timestamp_2>.png
+│   ├── <timestamp_3>.png
 │   └── ...
-└── <archivo>.csv
+└── <file>.csv
 ```
 
-La carpeta `data` contiene las imágenes registradas.
+The `data` folder contains the recorded images.
 
-Cada imagen utiliza como nombre el **timestamp correspondiente al momento en que fue tomada**.
+Each image uses the **timestamp corresponding to the moment it was captured** as its filename.
 
-El archivo `.csv` contiene la información asociada a cada imagen, incluyendo:
+The `.csv` file contains the information associated with each image, including:
 
 * Timestamp.
-* Nombre de la imagen.
+* Image filename.
 
 ### `/imu0`
 
-La carpeta de IMU contiene un archivo `.csv` con las mediciones registradas:
+The IMU folder contains a `.csv` file with the recorded measurements:
 
 ```text
 imu0/
-└── <archivo>.csv
+└── <file>.csv
 ```
 
-El archivo contiene:
+The file contains:
 
 ```text
 timestamp, wx, wy, wz, ax, ay, az
 ```
 
-De esta manera, cada muestra de IMU queda asociada con su timestamp correspondiente.
+This allows each IMU measurement to be associated with its corresponding timestamp.
 
 ---
 
-## 2. Conectar / Transmitir
+## 2. Connect / Transmit
 
-El botón **"Conectar/Transmitir"** permite iniciar la conexión mediante WebSocket.
+The **"Connect/Transmit"** button is used to initiate the WebSocket connection.
 
-Al activarlo, la aplicación comienza el proceso de conexión con la IP y el puerto configurados y, una vez establecida la conexión, inicia la transmisión de los datos configurados.
+When activated, the application starts the connection process using the configured IP address and port. Once the connection is successfully established, the application begins transmitting the configured data.
 
 ---
 
-# Estructura general de funcionamiento
+# General Operation
 
-De forma general, el flujo de la aplicación puede representarse como:
+The general operation of the application can be represented as follows:
 
 ```text
 ┌─────────────────────┐
 │      OrbVisense     │
-│    Android App      │
+│     Android App     │
 └──────────┬──────────┘
            │
            │ WebSocket
@@ -306,4 +304,4 @@ timestamp     ax ay az
               + timestamp
 ```
 
-La aplicación permite configurar las tasas de transmisión y las características de la cámara antes o durante la conexión, de acuerdo con los requerimientos del sistema receptor.
+The application allows the transmission rates and camera parameters to be configured before or during the connection according to the requirements of the receiving system.
