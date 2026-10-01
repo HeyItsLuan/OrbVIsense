@@ -240,7 +240,6 @@ cam0/
 ├── data/
 │   ├── <timestamp_1>.png
 │   ├── <timestamp_2>.png
-│   ├── <timestamp_3>.png
 │   └── ...
 └── <file>.csv
 ```
