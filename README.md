@@ -48,6 +48,19 @@ To start Android Studio:
 ```bash
 "$HOME/Downloads/android-studio/bin/studio"
 ```
+### Download the Project
+
+To download the OrbVisense project directly from GitHub, clone the repository using:
+
+```bash
+git clone https://github.com/HeyItsLuan/OrbVIsense.git
+```
+
+Then enter the project directory:
+
+```bash
+cd OrbVIsense
+```
 
 ## 5. Open the OrbVisense project
 
