@@ -22,6 +22,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "TransmitirVI"
+rootProject.name = "OrbVIsense"
 include(":app")
- 
