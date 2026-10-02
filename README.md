@@ -317,3 +317,10 @@ timestamp     ax ay az
 ```
 
 The application allows the transmission rates and camera parameters to be configured before or during the connection according to the requirements of the receiving system.
+
+## Camera-IMU Calibration
+
+For the complete camera-IMU calibration procedure, including Allan Variance, Kalibr, dataset preparation, and conversion of the calibration results to ORB-SLAM3 parameters, see the dedicated calibration repository:
+
+**https://github.com/HeyItsLuan/OrbVIsense-calibration**
+
