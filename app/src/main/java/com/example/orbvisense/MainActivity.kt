@@ -232,7 +232,7 @@ class StreamViewModel(application: Application) : AndroidViewModel(application),
             vibrate()
         } catch (e: Exception) {
             Log.e("Recording", "Error al crear archivos en Documentos", e)
-            _uiState.update { it.copy(errorMessage = "Error de escritura: ¿Permisos?") }
+            _uiState.update { it.copy(errorMessage = "Write error: Permissions?") }
         }
     }
 
@@ -261,7 +261,7 @@ class StreamViewModel(application: Application) : AndroidViewModel(application),
         webSocket?.close(1000, "Reset")
         val url = "ws://${uiState.value.serverIp.trim()}:${uiState.value.serverPort.trim()}"
         val request = try { Request.Builder().url(url).build() } catch (e: Exception) {
-            _uiState.update { it.copy(status = StreamStatus.Error, errorMessage = "IP/Puerto inválidos") }
+            _uiState.update { it.copy(status = StreamStatus.Error, errorMessage = "Invalid IP/Port") }
             isStreamingActive = false; return
         }
         
@@ -505,11 +505,11 @@ fun PermissionHandler(content: @Composable () -> Unit) {
     } else {
         Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.padding(24.dp)) {
-                Text("Se requieren permisos de Cámara y Almacenamiento (Todos los archivos) para guardar en Documentos.", textAlign = TextAlign.Center)
+                Text("Camera and Storage (All files) permissions are required to save data to Documents.", textAlign = TextAlign.Center)
                 Spacer(Modifier.height(16.dp))
                 Button(onClick = { 
                     launcher.launch(arrayOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE))
-                }) { Text("CONCEDER PERMISOS") }
+                }) { Text("GRANT PERMISSIONS") }
             }
         }
     }
@@ -531,7 +531,7 @@ fun StreamScreen(viewModel: StreamViewModel = viewModel()) {
                 ) {
                     Icon(Icons.Default.FiberManualRecord, contentDescription = null)
                     Spacer(Modifier.width(8.dp))
-                    Text(if (uiState.isRecording) "DETENER GRABACIÓN" else "GRABAR DATOS (KALIBR)", fontWeight = FontWeight.Bold)
+                    Text(if (uiState.isRecording) "STOP RECORDING" else "RECORD DATA (KALIBR)", fontWeight = FontWeight.Bold)
                 }
                 Button(
                     onClick = { viewModel.toggleStreaming() },
@@ -539,7 +539,7 @@ fun StreamScreen(viewModel: StreamViewModel = viewModel()) {
                     colors = ButtonDefaults.buttonColors(containerColor = if (uiState.isStreaming) Color.Red else MaterialTheme.colorScheme.primary),
                     shape = RoundedCornerShape(12.dp)
                 ) {
-                    Text(if (uiState.isStreaming) "DETENER TRANSMISIÓN" else "CONECTAR / TRANSMITIR", fontWeight = FontWeight.Bold)
+                    Text(if (uiState.isStreaming) "STOP STREAMING" else "CONNECT / STREAM", fontWeight = FontWeight.Bold)
                 }
             }
         }
@@ -550,17 +550,17 @@ fun StreamScreen(viewModel: StreamViewModel = viewModel()) {
             
             Column(modifier = Modifier.align(Alignment.TopStart).padding(16.dp).background(Color.Black.copy(alpha = 0.6f), RoundedCornerShape(12.dp)).padding(16.dp)) {
                 val (color, label) = when (uiState.status) { 
-                    StreamStatus.Connected -> Color.Cyan to "CONECTADO"
-                    StreamStatus.Streaming -> Color.Green to "TRANSMITIENDO"
-                    StreamStatus.Connecting -> Color.Yellow to "CONECTANDO"
-                    StreamStatus.Retrying -> Color.Magenta to "REINTENTANDO"
+                    StreamStatus.Connected -> Color.Cyan to "CONNECTED"
+                    StreamStatus.Streaming -> Color.Green to "STREAMING"
+                    StreamStatus.Connecting -> Color.Yellow to "CONNECTING"
+                    StreamStatus.Retrying -> Color.Magenta to "RETRYING"
                     StreamStatus.Error -> Color.Red to "ERROR"
-                    else -> Color.Gray to "DESCONECTADO" 
+                    else -> Color.Gray to "DISCONNECTED" 
                 }
                 StatusTag(label, color)
                 if (uiState.isRecording) {
                     Spacer(Modifier.height(4.dp))
-                    StatusTag("GRABANDO", Color.Red)
+                    StatusTag("RECORDING", Color.Red)
                 }
                 Spacer(Modifier.height(8.dp))
                 InfoTextItem("IP: ${uiState.serverIp}:${uiState.serverPort}")
