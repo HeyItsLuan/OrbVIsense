@@ -1,3 +1,8 @@
+<!-- 
+CONTRIBUTORS:
+JUAN CAMILO RODRIGUEZ GARCIA
+JUAN CARLOS PIRACOCA TAPIERO
+-->
 # OrbVisense
 
 Android application for **camera and IMU data transmission over WebSocket**, organized under a client-server architecture.
